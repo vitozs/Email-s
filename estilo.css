@@ -1,0 +1,18 @@
+body{
+    background-color: white;
+}
+
+.form-control, .btn-success{
+    border-radius: 0px;
+
+}
+
+.box{
+    box-shadow: 0 0 1em gray;
+}
+
+header{
+    background-color: rgb(114, 114, 228);
+    color: white;
+    padding: 10px;
+}

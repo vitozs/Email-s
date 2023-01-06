@@ -13,6 +13,8 @@
 
     <link rel="stylesheet" href="estilo.css">
 
+    <script src='teste.js'></script>
+
    
 </head>
 <body>
@@ -37,13 +39,15 @@
                 <input name='assunto' class='form-control' type="text" placeholder='Assunto:'>
                 <textarea name='mensagem' class='form-control' type="textarea" placeholder='Mensagem:' style='resize: none; height:300px;'></textarea>
                 <div class="d-grid gap-2">
-                    <button type='submit' class='btn btn-success btn-lg'>Send <i class="bi bi-send"></i></button>
+                    <button id='send' type='submit' class='btn btn-success btn-lg'>Send <i class="bi bi-send"></i></button>
                 </div>
                 
             </form>               
         </div>
 
     </div>
+
+
 
 </body>
 </html>

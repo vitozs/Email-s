@@ -3,6 +3,7 @@
 
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\Exception;
+    use PHPMailer\PHPMailer\SMTP;
 
     require './Lib/PHPMailer/src/Exception.php';
     require './Lib/PHPMailer/src/PHPMailer.php';
@@ -28,7 +29,7 @@
     $mensagem->__set('de', $_POST['de']);
     $mensagem->__set('para', $_POST['para']);
     $mensagem->__set('assunto', $_POST['assunto']);
-    $mensagem->__set('assunto', $_POST['assunto']);
+    $mensagem->__set('mensagem', $_POST['mensagem']);
 
     print_r($_POST);
 
@@ -38,9 +39,7 @@
     
     //Import PHPMailer classes into the global namespace
     //These must be at the top of your script, not inside a function
-    use PHPMailer\PHPMailer\PHPMailer;
-    use PHPMailer\PHPMailer\SMTP;
-    use PHPMailer\PHPMailer\Exception;
+
 
     //Load Composer's autoloader
     require 'vendor/autoload.php';
@@ -50,9 +49,9 @@
 
     try {
         //Server settings
-        $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+        //$mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
         $mail->isSMTP();                                            //Send using SMTP
-        $mail->Host       = 'smtp-relay.gmail.com';                     //Set the SMTP server to send through
+        $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
         $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
         $mail->Username   = 'vitornuneschagas2016@gmail.com';                     //SMTP username
         $mail->Password   = 'rbjrrlscyqaftcab';                               //SMTP password
@@ -74,8 +73,8 @@
         //Content
         $mail->isHTML(true);                                  //Set email format to HTML
         $mail->Subject = $mensagem->__get('assunto');
-        $mail->Body    = $mensgem->__get('mensagem');
-        //$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+        $mail->Body    = $mensagem->__get('mensagem');
+        //$mail->AltBody = $mensagem->__get('mensagem');
 
         $mail->send();
         echo 'Message has been sent';

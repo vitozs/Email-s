@@ -1,3 +1,9 @@
 body{
-    background-color: rgb(57, 57, 71);
+    background-color: white;
+    color: white;
+}
+
+.container{
+    box-shadow: 0 0 1em gray;
+
 }

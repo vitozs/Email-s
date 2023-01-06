@@ -9,6 +9,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
 
+
+   
 </head>
 <body>
 
@@ -20,17 +22,17 @@
 
         <form action="enviar_email.php" method='post'>
 
-            <div class='row'>
+            <div class='row gx-0'>
                 <div class="col-6">
-                    <input name='de' class='form-control' type="text" placeholder='De:'>
+                    <input name='de' class='form-control' type="text" placeholder='De:' style="border-radius:0px;">
                 </div>
                 <div class="col-6">
-                    <input name='para' class='form-control' type="text" placeholder='Para:'>
+                    <input name='para' class='form-control' type="text" placeholder='Para:' style="border-radius:0px;">
                 </div>
             </div>
             
-            <input name='assunto' class='form-control' type="text" placeholder='Assunto:'>
-            <textarea name='mensagem' class='form-control' type="textarea" placeholder='Mensagem:'></textarea>
+            <input name='assunto' class='form-control' type="text" placeholder='Assunto:' style="border-radius:0px;">
+            <textarea name='mensagem' class='form-control' type="textarea" placeholder='Mensagem:' style='resize: none; height:300px; border-radius:0px;'></textarea>
             <button type='submit' class='btn btn-success btn-lg'>Enviar</button>
 
         </form>

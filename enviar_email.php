@@ -14,6 +14,8 @@
         private $para = null;
         private $assunto = null;
         private $mensagem = null;
+        private $aviso = null;
+        private $erro = null;
 
         public function __set($atr, $val){
             $this->$atr = $val;
@@ -30,12 +32,6 @@
     $mensagem->__set('para', $_POST['para']);
     $mensagem->__set('assunto', $_POST['assunto']);
     $mensagem->__set('mensagem', $_POST['mensagem']);
-
-    print_r($_POST);
-
-
-
-
     
     //Import PHPMailer classes into the global namespace
     //These must be at the top of your script, not inside a function
@@ -46,6 +42,7 @@
 
     //Create an instance; passing `true` enables exceptions
     $mail = new PHPMailer(true);
+
 
     try {
         //Server settings
@@ -77,8 +74,73 @@
         //$mail->AltBody = $mensagem->__get('mensagem');
 
         $mail->send();
-        echo 'Message has been sent';
+        $mensagem->__set('aviso', 'Mensagem enviada com sucesso!');
+        $mensagem->__set('erro', 0);
+
     } catch (Exception $e) {
-        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        $mensagem->__set('aviso', "A mensagem não pode ser enviada! Erro: {$mail->ErrorInfo}");
+        $mensagem->__set('erro',1);
+
+
     }
+
+
+    
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+
+    <link rel="stylesheet" href="estilo.css">
+
+    <script src='teste.js'></script>
+
+   
+</head>
+<body>
+
+    <header class='display-4 text-center'>
+        Email sender <i class="bi bi-envelope"></i>
+    </header>
+
+    <div class='container mt-5 w-50'>
+
+        <? if($mensagem->__get('erro') != 1){?>
+            <div class='display-2 text-success'>
+                Mensagem enviada!
+            </div>
+            <p class='mt-5'>
+                <?= $mensagem->__get('aviso') ?>
+            </p>
+        <?}?>
+
+        <? if($mensagem->__get('erro') == 1){?>
+            <div class='display-2 text-danger'>
+                Ops...
+            </div>
+            <p class='mt-3'>
+                <?= $mensagem->__get('aviso') ?>
+            </p>
+        <?}?>
+
+        <a href="index.php" class='btn btn-success btn-lg mt-5'>Voltar</a>
+
+
+        
+
+    </div>
+
+
+
+</body>
+</html>

@@ -15,7 +15,7 @@
         private $assunto = null;
         private $mensagem = null;
         private $aviso = null;
-        private $erro = false;
+        private $erro = null;
 
         public function __set($atr, $val){
             $this->$atr = $val;
@@ -43,47 +43,48 @@
     //Create an instance; passing `true` enables exceptions
     $mail = new PHPMailer(true);
 
-    if($_POST['de'] != '' || $_POST['para'] != '' || $_POST['assunto'] != ''|| $_POST['mensagem'] != ''){
-        try {
-            //Server settings
-            //$mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
-            $mail->isSMTP();                                            //Send using SMTP
-            $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
-            $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-            $mail->Username   = 'emailsender2023@gmail.com';                     //SMTP username
-            $mail->Password   = 'sfjerqqbqyroxvog';                               //SMTP password
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-            $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-    
-            //Recipients
-            $mail->setFrom($mensagem->__get('de'), $mensagem->__get('de'));
-            $mail->addAddress($mensagem->__get('para'));     //Add a recipient
-            //$mail->addAddress($mensagem->__get('de'));               //Name is optional
-            //$mail->addReplyTo('info@example.com', 'Information');
-            //$mail->addCC('cc@example.com');
-            //$mail->addBCC('bcc@example.com');
-    
-            //Attachments
-            //$mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
-            //$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
-    
-            //Content
-            $mail->isHTML(true);                                  //Set email format to HTML
-            $mail->Subject = $mensagem->__get('assunto');
-            $mail->Body    = $mensagem->__get('mensagem');
-            //$mail->AltBody = $mensagem->__get('mensagem');
-    
-            $mail->send();
-            $mensagem->aviso = 'Mensagem enviada com sucesso!';
-            $mensagem->erro = false;
-        } catch (Exception $e) {
-             $mensagem->aviso = "A mensagem não pode ser enviada! Erro: {$mail->ErrorInfo}";
-             $mensagem->erro = true;
 
-        }
-    }else{
-        $mensagem->aviso = 'Preencha todos os campos!';
+    try {
+        //Server settings
+        //$mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+        $mail->isSMTP();                                            //Send using SMTP
+        $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+        $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+        $mail->Username   = 'emailsender2023@gmail.com';                     //SMTP username
+        $mail->Password   = 'sfjerqqbqyroxvog';                               //SMTP password
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
+        $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+        //Recipients
+        $mail->setFrom($mensagem->__get('de'), $mensagem->__get('de'));
+        $mail->addAddress($mensagem->__get('para'));     //Add a recipient
+        //$mail->addAddress($mensagem->__get('de'));               //Name is optional
+        //$mail->addReplyTo('info@example.com', 'Information');
+        //$mail->addCC('cc@example.com');
+        //$mail->addBCC('bcc@example.com');
+
+        //Attachments
+        //$mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
+        //$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
+
+        //Content
+        $mail->isHTML(true);                                  //Set email format to HTML
+        $mail->Subject = $mensagem->__get('assunto');
+        $mail->Body    = $mensagem->__get('mensagem');
+        //$mail->AltBody = $mensagem->__get('mensagem');
+
+        $mail->send();
+        $mensagem->__set('aviso', 'Mensagem enviada com sucesso!');
+        $mensagem->__set('erro', 0);
+
+    } catch (Exception $e) {
+        $mensagem->__set('aviso', "A mensagem não pode ser enviada! Erro: {$mail->ErrorInfo}");
+        $mensagem->__set('erro',1);
+
+
     }
+
+
     
 ?>
 
@@ -114,23 +115,27 @@
 
     <div class='container mt-5 w-50'>
 
-        <? if($mensagem->erro = false){?>
-        <div class='display-1 text-success'>
-            Mensagem enviada!
-        </div>
-        <p>
-            <?= $mensagem->aviso ?>
-        </p>
+        <? if($mensagem->__get('erro') != 1){?>
+            <div class='display-2 text-success'>
+                Mensagem enviada!
+            </div>
+            <p class='mt-5'>
+                <?= $mensagem->__get('aviso') ?>
+            </p>
         <?}?>
 
-        <? if($mensagem->erro = true){?>
-        <div class='display-1 text-danger'>
-            Ops...
-        </div>
-        <p>
-            <?= $mensagem->aviso ?>
-        </p>
+        <? if($mensagem->__get('erro') == 1){?>
+            <div class='display-2 text-danger'>
+                Ops...
+            </div>
+            <p class='mt-3'>
+                <?= $mensagem->__get('aviso') ?>
+            </p>
         <?}?>
+
+        <a href="index.php" class='btn btn-success btn-lg mt-5'>Voltar</a>
+
+
         
 
     </div>
